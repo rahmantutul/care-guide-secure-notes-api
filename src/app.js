@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -22,12 +21,18 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Care Guide Secure Notes API',
+    status: 'running',
+    health: '/api/health'
+  });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/notes', noteRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/posts', postRoutes);
-
-app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use(notFound);
 app.use(errorHandler);
